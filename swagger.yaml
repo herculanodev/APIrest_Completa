@@ -1,0 +1,84 @@
+openapi: 3.0.0
+info:
+  title: API Segurança
+  version: 0.1
+tags:
+  - name: usuarios
+    description: Operações relacionadas a usuários
+paths:
+  /usuarios:
+    post:
+      tags:
+        - usuarios
+      summary: Cria um novo usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "usuario@example.com"
+                senha:
+                  type: string
+                  example: "senhaSegura123"
+      responses:
+        '201':
+          description: Usuário criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+  /usuarios/login:
+    post:
+      tags:
+        - usuarios
+      summary: Autentica um usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "usuario@example.com"
+                senha:
+                  type: string
+                  example: "senhaSegura123"
+      responses:
+        '200':
+          description: Usuário autenticado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        '401':
+          description: Credenciais inválidas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mensagem'
+components:
+  schemas:
+    Usuario:
+      type: object
+      properties:
+        email:
+          type: string
+        senha:
+          type: string
+        salto:
+          type: string
+    Mensagem:
+      type: object
+      properties:
+        msg:
+          type: string
+          example: "Credenciais inválidas"
